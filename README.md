@@ -9,28 +9,29 @@ An automated testing framework for the **Toolshop** educational platform, built 
 **Practice Software Testing (Toolshop)** is a fully functional, modern e-commerce platform (an online tool store) specifically designed to showcase and practice complex real-world testing scenarios.
 
 **The primary goals of this project are:**
-* To gain hands-on experience with production-like business workflows (End-to-End, integration testing).
-* To build a stable, scalable, and maintainable test automation framework from scratch.
-* To implement a **hybrid testing approach** (combining UI and API interactions) to drastically optimize test execution time.
-* To demonstrate proficiency in a modern automation tech stack for a QA Automation Engineer role.
+
+- To gain hands-on experience with production-like business workflows (End-to-End, integration testing).
+- To build a stable, scalable, and maintainable test automation framework from scratch.
+- To implement a **hybrid testing approach** (combining UI and API interactions) to drastically optimize test execution time.
+- To demonstrate proficiency in a modern automation tech stack for a QA Automation Engineer role.
 
 ---
 
 ## 💻 Tech Stack
 
-* **Core Framework:** Playwright (Latest version)
-* **Language:** TypeScript
-* **Design Patterns:** Page Object Model (POM), Custom Fixtures (Page Factory)
-* **CI/CD:** GitHub Actions (Automated test execution on every push or pull request)
-* **Reporting:** Playwright HTML Report / Allure Report
-* **AI Tooling:** ChatGPT / GitHub Copilot (Leveraged for static code analysis, locator optimization, and realistic test data generation)
+- **Core Framework:** Playwright (Latest version)
+- **Language:** TypeScript
+- **Design Patterns:** Page Object Model (POM), Custom Fixtures (Page Factory)
+- **CI/CD:** GitHub Actions (Automated test execution on every push or pull request)
+- **Reporting:** Playwright HTML Report / Allure Report
+- **AI Tooling:** ChatGPT / GitHub Copilot (Leveraged for static code analysis, locator optimization, and realistic test data generation)
 
 ---
 
 ## 🌐 System Under Test (SUT)
 
-* **Target Application (UI):** [https://practicesoftwaretesting.com/](https://practicesoftwaretesting.com/)
-* **API Documentation:** Available directly via the platform's endpoints (Swagger/API contracts for managing users, carts, and checkout processes).
+- **Target Application (UI):** [https://practicesoftwaretesting.com/](https://practicesoftwaretesting.com/)
+- **API Documentation:** Available directly via the platform's endpoints (Swagger/API contracts for managing users, carts, and checkout processes).
 
 ---
 
@@ -61,3 +62,4 @@ playwright-toolshop-framework/
 ├── playwright.config.ts         # Global framework configurations (parallelization, viewports, browsers)
 ├── package.json                 # Project dependencies and custom npm scripts
 └── README.md                    # Project documentation
+```

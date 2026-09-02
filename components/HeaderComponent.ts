@@ -114,7 +114,7 @@ export class HeaderComponent extends BasePage {
 }
 
 async selectLanguage(language: string): Promise<void> {
-  await this.page.getByTestId(`nav-${language}`).click();
+  await this.page.getByTestId(`lang-${language}`).click();
 }
 
   async selectEnglish(): Promise<void> {

@@ -38,10 +38,16 @@ test.describe("Header", () => {
 
     await header.selectCategory("power-tools");
     await expect(page).toHaveURL("/category/power-tools");
+
+    await header.openCategoriesMenu();
     await header.selectCategory("other");
     await expect(page).toHaveURL("/category/other");
+
+    await header.openCategoriesMenu();
     await header.selectCategory("special-tools");
     await expect(page).toHaveURL("/category/special-tools");
+
+    await header.openCategoriesMenu();
     await header.selectCategory("rentals");
     await expect(page).toHaveURL("/rentals");
   });
@@ -73,18 +79,30 @@ test.describe("Header", () => {
     await header.openLanguageMenu();
 
     await header.selectLanguage("de");
-    await expect(header.homeLink).toHaveText("Einloggen");
+    await expect(header.signInLink).toHaveText("Einloggen");
+
+    await header.openLanguageMenu();
     await header.selectLanguage("el");
-    await expect(header.homeLink).toHaveText("Σύνδεση");
+    await expect(header.signInLink).toHaveText("Σύνδεση");
+
+    await header.openLanguageMenu();
     await header.selectLanguage("en");
-    await expect(header.homeLink).toHaveText("Sign in");
+    await expect(header.signInLink).toHaveText("Sign in");
+
+    await header.openLanguageMenu();
     await header.selectLanguage("es");
-    await expect(header.homeLink).toHaveText("Iniciar sesión");
+    await expect(header.signInLink).toHaveText("Iniciar sesión");
+
+    await header.openLanguageMenu();
     await header.selectLanguage("fr");
-    await expect(header.homeLink).toHaveText("Se connecter");
+    await expect(header.signInLink).toHaveText("Se connecter");
+
+    await header.openLanguageMenu();
     await header.selectLanguage("nl");
-    await expect(header.homeLink).toHaveText("Inloggen");
+    await expect(header.signInLink).toHaveText("Inloggen");
+
+    await header.openLanguageMenu();
     await header.selectLanguage("tr");
-    await expect(header.homeLink).toHaveText("Giriş Yap");
+    await expect(header.signInLink).toHaveText("Giriş Yap");
   });
 });

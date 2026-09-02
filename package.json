@@ -1,0 +1,29 @@
+{
+  "name": "playwright-practice-software-testing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Automation framework for the Practice Software Testing application built with Playwright and TypeScript.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alyonaMol/playwright-practice-software-testing.git"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "automation",
+    "e2e",
+    "qa"
+  ],
+  "author": "Alona Molchanova",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/alyonaMol/playwright-practice-software-testing/issues"
+  },
+  "homepage": "https://github.com/alyonaMol/playwright-practice-software-testing#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.1"
+  },
+  "scripts": {}
+}

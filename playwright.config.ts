@@ -43,10 +43,28 @@ export default defineConfig({
 
   projects: [
     {
-      name: "chromium",
+      name: "setup",
+      testMatch: /.*\.setup\.ts/,
+    },
+
+    // 2. Проект для незалогінених користувачів (без сесії)
+    {
+      name: "guest-tests",
+      testDir: "./tests/smoke/guest",
       use: {
         ...devices["Desktop Chrome"],
       },
+    },
+
+    // 3. Проект для залогінених користувачів (автоматично підтягує user.json)
+    {
+      name: "authenticated-tests",
+      testDir: "./tests/smoke/authenticated",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "playwright/.auth/user.json",
+      },
+      dependencies: ["setup"], // Запускається ТІЛЬКИ після успішного setup!
     },
   ],
 });

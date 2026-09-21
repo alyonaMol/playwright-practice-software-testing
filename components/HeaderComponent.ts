@@ -1,8 +1,9 @@
 import { BasePage } from '../pages/BasePage';
 
 import { Locator, Page, expect } from '@playwright/test';
+import { BaseComponent } from './BaseComponent';
 
-export class HeaderComponent extends BasePage {
+export class HeaderComponent extends BaseComponent {
   readonly logoLink: Locator;
   readonly homeLink: Locator;
 

@@ -85,7 +85,6 @@ export class HeaderComponent extends BaseComponent {
 
     if (isExpanded !== 'true') {
       await this.languageButton.click();
-      // Переконуємося, що Bootstrap дійсно розгорнув меню
       await expect(this.languageButton).toHaveAttribute('aria-expanded', 'true');
     }
   }
@@ -124,10 +123,14 @@ export class HeaderComponent extends BaseComponent {
 }
 
 async selectLanguage(language: string): Promise<void> {
-  const langOption = this.page.getByTestId(`lang-${language}`);
-
+  
+const isExpanded = await this.languageButton.getAttribute('aria-expanded');
+    if (isExpanded !== 'true') {
+      await this.languageButton.click();
+      await expect(this.languageButton).toHaveAttribute('aria-expanded', 'true');
+    }
+    const langOption = this.page.getByTestId(`lang-${language}`);
     await langOption.waitFor({ state: 'visible', timeout: 5000 });
-
     await langOption.click();
 
     await expect(this.languageButton).toHaveAttribute('aria-expanded', 'false');

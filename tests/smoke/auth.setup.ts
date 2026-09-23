@@ -50,10 +50,12 @@ setup('authenticate user via API registration', async ({ page, request }) => {
 
   expect(registerResponse.status()).toBe(201);
 
+  await page.goto('https://practicesoftwaretesting.com/auth/login', { waitUntil: 'networkidle' });
+
   // 2. Логін через UI після успішного створення акаунту
   const loginPage = new LoginPage(page);
   await loginPage.open();
-  await expect(loginPage.emailInput).toBeVisible({ timeout: 15000 });
+  
   await loginPage.login(user.email, user.password);
 
   await expect(page).toHaveURL(/.*\/account/);

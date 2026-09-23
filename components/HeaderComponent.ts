@@ -79,6 +79,8 @@ export class HeaderComponent extends BaseComponent {
     await langOption.waitFor({ state: 'visible', timeout: 5000 });
 
     // Клік з force: true долає анімації Bootstrap у CI
-    await langOption.click({ force: true });
+    await langOption.click();
+    await expect(this.languageButton).toHaveAttribute('aria-expanded', 'false');
+    await expect(this.languageButton).toContainText(language.toUpperCase());
   }
 }

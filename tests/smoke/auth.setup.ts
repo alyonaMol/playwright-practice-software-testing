@@ -24,7 +24,6 @@ const authFile = path.join(process.cwd(), 'playwright/.auth/user.json');
 setup('authenticate user via API registration', async ({ page, request }) => {
   const user = UserGenerator.generateUser();
 
-  // 1. Створюємо юзера через API з ПРАВИЛЬНИМИ назвами ключів
   const registerResponse = await request.post('https://api.practicesoftwaretesting.com/users/register', {
     data: {
       first_name: user.firstName,
@@ -42,7 +41,6 @@ setup('authenticate user via API registration', async ({ page, request }) => {
     },
   });
 
-  // Логуємо деталі помилки, якщо бекенд повертає не 201
   if (registerResponse.status() !== 201) {
     const errorBody = await registerResponse.json();
     console.error('❌ Помилка реєстрації через API (422/400):', JSON.stringify(errorBody, null, 2));
@@ -50,7 +48,6 @@ setup('authenticate user via API registration', async ({ page, request }) => {
 
   expect(registerResponse.status()).toBe(201);
 
-   // 2. Логін через UI після успішного створення акаунту
   const loginPage = new LoginPage(page);
   await loginPage.open();
 
@@ -58,6 +55,6 @@ setup('authenticate user via API registration', async ({ page, request }) => {
 
   await expect(page).toHaveURL(/.*\/account/);
 
-  // 3. Збереження сесії
+
   await page.context().storageState({ path: authFile });
 });

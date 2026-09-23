@@ -61,11 +61,10 @@ test.describe("Header Navigation & Visibility", () => {
     ];
 
     for (const { code, expectedText } of languages) {
-
       await homePage.header.selectLanguage(code);
 
+      // Перевіряємо, що текст кнопки Sign In змінився на відповідну мову
       await expect(homePage.header.signInLink).toHaveText(expectedText, { timeout: 10000 });
     }
   });
-
 });

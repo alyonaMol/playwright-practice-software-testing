@@ -1,4 +1,3 @@
-
 import { Locator, Page, expect } from '@playwright/test';
 import { BaseComponent } from './BaseComponent';
 
@@ -18,15 +17,6 @@ export class HeaderComponent extends BaseComponent {
   readonly userMenu: Locator;
 
   readonly languageButton: Locator;
-  readonly englishLanguage: Locator;
-  readonly dutchLanguage: Locator;
-  readonly frenchLanguage: Locator;
-  readonly germanLanguage: Locator;
-  readonly spanishLanguage: Locator;
-  readonly greekLanguage: Locator;
-  readonly turkishLanguage: Locator;
-
-
 
   constructor(page: Page) {
     super(page);
@@ -44,15 +34,6 @@ export class HeaderComponent extends BaseComponent {
     this.otherLink = this.page.getByTestId('nav-other');
     this.specialToolsLink = this.page.getByTestId('nav-special-tools');
     this.rentalsLink = this.page.getByTestId('nav-rentals');
-
-    this.germanLanguage = this.page.getByTestId('lang-de');
-    this.greekLanguage = this.page.getByTestId('lang-el');
-    this.englishLanguage = this.page.getByTestId('lang-en');
-    this.spanishLanguage = this.page.getByTestId('lang-es');
-    this.frenchLanguage = this.page.getByTestId('lang-fr');
-    this.dutchLanguage = this.page.getByTestId('lang-nl');
-    this.turkishLanguage = this.page.getByTestId('lang-tr');
-
   }
 
   async clickLogo(): Promise<void> {
@@ -79,95 +60,25 @@ export class HeaderComponent extends BaseComponent {
     await this.cartLink.click();
   }
 
-  async openLanguageMenu(): Promise<void> {
-    const isExpanded = await this.languageButton.getAttribute('aria-expanded');
+  async selectCategory(category: string): Promise<void> {
+    await this.page.getByTestId(`nav-${category}`).click();
+  }
 
+  async selectLanguage(language: string): Promise<void> {
+    await this.languageButton.waitFor({ state: 'visible' });
+
+    // Відкриваємо дропдаун, якщо він ще не відкритий
+    const isExpanded = await this.languageButton.getAttribute('aria-expanded');
     if (isExpanded !== 'true') {
       await this.languageButton.click();
       await expect(this.languageButton).toHaveAttribute('aria-expanded', 'true');
     }
+
+    // Отримуємо елемент обраної мови
+    const langOption = this.page.getByTestId(`lang-${language}`);
+    await langOption.waitFor({ state: 'visible', timeout: 5000 });
+
+    // Клік з force: true долає анімації Bootstrap у CI
+    await langOption.click({ force: true });
   }
-
-  async isLogoVisible(): Promise<void> {
-    await expect(this.logoLink).toBeVisible();
-  }
-
-  async isHomeVisible(): Promise<void> {
-    await expect(this.homeLink).toBeVisible();
-  }
-
-  async isCategoriesLinkVisible(): Promise<void> {
-    await expect(this.categoriesLink).toBeVisible();
-  }
-
-  async isContactLinkVisible(): Promise<void> {
-    await expect(this.contactLink).toBeVisible();
-  }
-
-  async isSignInLinkVisible(): Promise<void> {
-    await expect(this.signInLink).toBeVisible();
-  }
-
-  async isCartLinkVisible(): Promise<void> {
-    await expect(this.cartLink).toBeVisible();
-  }
-
-  async isLanguageButtonVisible(): Promise<void> {
-    await expect(this.languageButton).toBeVisible();
-  }
-
-
-  async selectCategory(category: string): Promise<void> {
-  await this.page.getByTestId(`nav-${category}`).click();
-}
-
-async selectLanguage(language: string): Promise<void> {
-await this.languageButton.waitFor({ state: 'visible' });
-
-  const isExpanded = await this.languageButton.getAttribute('aria-expanded');
-  if (isExpanded !== 'true') {
-    await this.languageButton.click();
-    await expect(this.languageButton).toHaveAttribute('aria-expanded', 'true');
-  }
-
-  // 2. Локатор для конкретної мови
-  const langOption = this.page.getByTestId(`lang-${language}`);
-  await langOption.waitFor({ state: 'visible', timeout: 5000 });
-
-  // 3. Робимо Force click, якщо випадаюче меню перекривається анімацією у CI,
-  // або звичайний click із забезпеченням відправки події
-  await langOption.click();
-
-  // 4. Чекаємо закриття дропдауну
-  await expect(this.languageButton).toHaveAttribute('aria-expanded', 'false');
-}
-
-  async selectEnglish(): Promise<void> {
-    await this.englishLanguage.click();
-  }
-
-  async selectGerman(): Promise<void> {
-    await this.germanLanguage.click();
-  }
-
-  async selectGreek(): Promise<void> {
-    await this.greekLanguage.click();
-  }
-
-  async selectSpanish(): Promise<void> {
-    await this.spanishLanguage.click();
-  }
-
-  async selectFrench(): Promise<void> {
-    await this.frenchLanguage.click();
-  }
-
-  async selectDutch(): Promise<void> {
-    await this.dutchLanguage.click();
-  }
-
-  async selectTurkish(): Promise<void> {
-    await this.turkishLanguage.click();
-  }
-
 }

@@ -32,6 +32,7 @@ export class LoginPage extends BasePage {
 
   async open(): Promise<void> {
     await super.open("/auth/login");
+    await this.emailInput.waitFor({ state: 'visible', timeout: 15000 });
   }
 
   async login(email: string, password: string): Promise<void> {

@@ -1,4 +1,3 @@
-import { BasePage } from '../pages/BasePage';
 
 import { Locator, Page, expect } from '@playwright/test';
 import { BaseComponent } from './BaseComponent';
@@ -123,17 +122,24 @@ export class HeaderComponent extends BaseComponent {
 }
 
 async selectLanguage(language: string): Promise<void> {
-  
-const isExpanded = await this.languageButton.getAttribute('aria-expanded');
-    if (isExpanded !== 'true') {
-      await this.languageButton.click();
-      await expect(this.languageButton).toHaveAttribute('aria-expanded', 'true');
-    }
-    const langOption = this.page.getByTestId(`lang-${language}`);
-    await langOption.waitFor({ state: 'visible', timeout: 5000 });
-    await langOption.click();
+await this.languageButton.waitFor({ state: 'visible' });
 
-    await expect(this.languageButton).toHaveAttribute('aria-expanded', 'false');
+  const isExpanded = await this.languageButton.getAttribute('aria-expanded');
+  if (isExpanded !== 'true') {
+    await this.languageButton.click();
+    await expect(this.languageButton).toHaveAttribute('aria-expanded', 'true');
+  }
+
+  // 2. Локатор для конкретної мови
+  const langOption = this.page.getByTestId(`lang-${language}`);
+  await langOption.waitFor({ state: 'visible', timeout: 5000 });
+
+  // 3. Робимо Force click, якщо випадаюче меню перекривається анімацією у CI,
+  // або звичайний click із забезпеченням відправки події
+  await langOption.click();
+
+  // 4. Чекаємо закриття дропдауну
+  await expect(this.languageButton).toHaveAttribute('aria-expanded', 'false');
 }
 
   async selectEnglish(): Promise<void> {

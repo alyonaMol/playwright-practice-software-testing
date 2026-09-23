@@ -32,7 +32,7 @@ setup('authenticate user via API registration', async ({ page, request }) => {
       dob: user.dob,                         // Формат: YYYY-MM-DD
       country: user.country || 'UA',         // Повинен бути ISO-код: 'UA', 'US', 'DE' тощо
       postal_code: user.postcode,
-      house_number: user.houseNumber || '10', 
+      house_number: user.houseNumber || '10',
       street: user.address,
       city: user.city,
       state: user.state,
@@ -53,6 +53,7 @@ setup('authenticate user via API registration', async ({ page, request }) => {
   // 2. Логін через UI після успішного створення акаунту
   const loginPage = new LoginPage(page);
   await loginPage.open();
+  await expect(loginPage.emailInput).toBeVisible({ timeout: 15000 });
   await loginPage.login(user.email, user.password);
 
   await expect(page).toHaveURL(/.*\/account/);

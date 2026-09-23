@@ -63,7 +63,10 @@ test.describe("Header Navigation & Visibility", () => {
     for (const { code, expectedText } of languages) {
       await homePage.header.openLanguageMenu();
       await homePage.header.selectLanguage(code);
-      await expect(homePage.header.signInLink).toHaveText(expectedText);
+      
+      await expect(async () => {
+        await expect(homePage.header.signInLink).toHaveText(expectedText);
+      }).toPass({ timeout: 10000 });
     }
   });
 

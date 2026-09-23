@@ -27,6 +27,8 @@ export class HeaderComponent extends BaseComponent {
   readonly greekLanguage: Locator;
   readonly turkishLanguage: Locator;
 
+
+
   constructor(page: Page) {
     super(page);
 
@@ -51,6 +53,7 @@ export class HeaderComponent extends BaseComponent {
     this.frenchLanguage = this.page.getByTestId('lang-fr');
     this.dutchLanguage = this.page.getByTestId('lang-nl');
     this.turkishLanguage = this.page.getByTestId('lang-tr');
+
   }
 
   async clickLogo(): Promise<void> {
@@ -145,4 +148,5 @@ async selectLanguage(language: string): Promise<void> {
   async selectTurkish(): Promise<void> {
     await this.turkishLanguage.click();
   }
+
 }

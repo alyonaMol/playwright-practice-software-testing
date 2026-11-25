@@ -23,7 +23,7 @@ export default defineConfig({
     baseURL: "https://practicesoftwaretesting.com",
 
     headless: true,
-    testIdAttribute: 'data-test',
+    testIdAttribute: "data-test",
 
     viewport: {
       width: 1920,
@@ -44,7 +44,13 @@ export default defineConfig({
   projects: [
     {
       name: "setup",
-      testMatch: /.*\.setup\.ts/,
+      testMatch: /.*\.setup\.ts$/,
+    },
+
+    {
+      name: "unit-tests",
+      testDir: "./tests/unit",
+      testMatch: /.*\.spec\.ts$/,
     },
 
     // 2. Проект для незалогінених користувачів (без сесії)

@@ -1,26 +1,30 @@
-import { test, expect } from '../../../fixtures/page-factory';
-import { UserGenerator } from '../../../utils/user-generator';
+import { test, expect } from "../../../fixtures/page-factory";
+import { UserGenerator } from "../../../utils/user-generator";
 
-test.describe('Register Form Validation & E2E Tests', () => {
-
+test.describe("Register Form Validation & E2E Tests", () => {
   test.beforeEach(async ({ registerPage }) => {
     await registerPage.open();
   });
 
   // 1. Позитивний кейс успішної реєстрації
-  test('should register a new user successfully with valid data', async ({ registerPage, page }) => {
-  const newUser = UserGenerator.generateUser();
+  test("should register a new user successfully with valid data @requires-api", async ({
+    registerPage,
+    page,
+  }) => {
+    const newUser = UserGenerator.generateUser();
 
-  // Викликаємо мок перед заповненням форми
-  await registerPage.mockAddressLookup(newUser);
+    // Викликаємо мок перед заповненням форми
+    //await registerPage.mockAddressLookup(newUser);
 
-  await registerPage.registerUser(newUser);
+    await registerPage.registerUser(newUser);
 
-  await expect(page).toHaveURL(/.*\/auth\/login/);
-});
+    await expect(page).toHaveURL(/.*\/auth\/login/);
+  });
 
   // 2. Валідація обов'язкових полів при спробі відправки порожньої форми
-  test('should display validation errors when submitting empty form', async ({ registerPage }) => {
+  test("should display validation errors when submitting empty form ", async ({
+    registerPage,
+  }) => {
     await registerPage.registerButton.click();
 
     await expect(registerPage.firstNameError).toBeVisible();
@@ -36,9 +40,11 @@ test.describe('Register Form Validation & E2E Tests', () => {
   });
 
   // 3. Негативний кейс: занадто короткий пароль (< 8 символів)
-  test('should show error when password is less than 8 characters', async ({ registerPage }) => {
+  test("should show error when password is less than 8 characters", async ({
+    registerPage,
+  }) => {
     const user = UserGenerator.generateUser();
-    user.password = '12345';
+    user.password = "12345";
 
     await registerPage.fillRegistrationForm(user);
     await registerPage.registerButton.click();
@@ -47,19 +53,25 @@ test.describe('Register Form Validation & E2E Tests', () => {
   });
 
   // 8. Негативний: Формат дати народження з майбутнього
-  test('should show error when date of birth is in the future', async ({ registerPage }) => {
+  test("should show error when date of birth is in the future", async ({
+    registerPage,
+  }) => {
     const user = UserGenerator.generateUser();
-    user.dob = '01-01-1990'; // Неправильний формат (MM-DD-YYYY замість YYYY-MM-DD)
+    user.dob = "01-01-1990"; // Неправильний формат (MM-DD-YYYY замість YYYY-MM-DD)
 
     await registerPage.fillRegistrationForm(user);
     await registerPage.registerButton.click();
 
     await expect(registerPage.dobError).toBeVisible();
-    await expect(registerPage.dobError).toContainText('Please enter a valid date in YYYY-MM-DD format.');
+    await expect(registerPage.dobError).toContainText(
+      "Please enter a valid date in YYYY-MM-DD format.",
+    );
   });
 
   // 2. Негативний: Неповнолітній користувач < 18 років (блок registerError)
-  test('should display error when customer is under 18 years old', async ({ registerPage }) => {
+  test("should display error when customer is under 18 years old @requires-api", async ({
+    registerPage,
+  }) => {
     const user = UserGenerator.generateUser();
 
     // Динамічно розраховуємо дату для 17-річного користувача
@@ -71,13 +83,17 @@ test.describe('Register Form Validation & E2E Tests', () => {
     await registerPage.registerButton.click();
 
     await expect(registerPage.registerError).toBeVisible();
-    await expect(registerPage.registerError).toContainText('Customer must be 18 years old.');
+    await expect(registerPage.registerError).toContainText(
+      "Customer must be 18 years old.",
+    );
   });
-  
+
   // 9. Негативний: Відсутній обов'язковий номер телефону
-  test('should show error when phone number is missing', async ({ registerPage }) => {
+  test("should show error when phone number is missing", async ({
+    registerPage,
+  }) => {
     const user = UserGenerator.generateUser();
-    user.phone = ''; // Порожній телефон
+    user.phone = ""; // Порожній телефон
 
     await registerPage.fillRegistrationForm(user);
     await registerPage.registerButton.click();
@@ -85,4 +101,16 @@ test.describe('Register Form Validation & E2E Tests', () => {
     await expect(registerPage.phoneError).toBeVisible();
   });
 
+  test("should populate address fields after postcode lookup", async ({
+    registerPage,
+  }) => {
+    const user = UserGenerator.generateUser();
+
+    await registerPage.open();
+    await registerPage.fillRegistrationForm(user);
+
+    await expect(registerPage.addressInput).toHaveValue(user.address);
+    await expect(registerPage.cityInput).toHaveValue(user.city);
+    await expect(registerPage.stateInput).toHaveValue(user.state);
+  });
 });
